@@ -8,17 +8,23 @@ from pygame.locals import *
 from game_constants import *
 from tile_class import *
 
-class LevelMap():
+class LevelMap(pygame.sprite.Group):
     ''' LevelMap class : contains all information to set up the level map
                          The map is made up of Tile class objects - tiles
                          The map is scrollable and calculates offsets based on mouse movement
                          The mouse clicks are converted into tile numbers here
-
+        inherits:        pygame's sprite Group class, to hold the characters
+                         some important pygame.sprite.Group methods -
+                            .sprites() - list of all sprites in this Group
+                            .add(*sprites) - add any num. of sprites to this Group
+                            .remove(*sprites) - remove any num. of sprites from this group
+                            .draw(surface) - draws the contained sprites to surface
         attributes:
         methods:
     '''
 
     def __init__(self):
+        pygame.sprite.Group.__init__(self)
         self.offsetx = 0    #offset along the x axis when map is dragged with mouse
         self.offsety = 0    #offset along the y axis
         self.tile_list = []
@@ -29,10 +35,10 @@ class LevelMap():
     def initialize_tiles(self):
         ''' Initialize the bare bones tiles of the map '''
         count = 1
-        for y in range(1, TILES+1):
-            tiley = WINDOWSIZE - y*TILESIZE
-            for x in range(0, TILES):
-                tilex = x*TILESIZE
+        for y in range(TILESIZE, (TILES+1)*TILESIZE, TILESIZE):
+            tiley = WINDOWSIZE - y
+            for x in range(0, TILES*TILESIZE, TILESIZE):
+                tilex = x
                 self.tile_list.append(Tile("empty", count,
                                            tilex, tiley,
                                            TILESIZE, TILESIZE))
@@ -62,13 +68,10 @@ class LevelMap():
 
         return point_on_tile_no
 
-    #def get_draw_list(self):
-
 
     def set_drag_offsets(self, offsets):
         self.offsetx = offsets[0]
         self.offsety = offsets[1]
-        #print(offsets)
 
 
     def text_to_screen(self, text, x, y, size = 10,
