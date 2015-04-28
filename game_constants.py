@@ -6,7 +6,7 @@ TILE_WALKABILITY = {'city': 100, 'road': 1, 'empty':5}
 
 
 TILESIZE = 80
-TILES = 10
+TILES = 15
 VEL = 5*TILES/8
 
 

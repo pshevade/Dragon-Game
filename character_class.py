@@ -21,4 +21,7 @@ class Character(pygame.sprite.Sprite):
             col = TILES
         return (row, col)
 
+def main():
+
+
 
